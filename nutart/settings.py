@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from pathlib import Path
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Utilities
+PROJECT_PACKAGE = Path(__file__).resolve().parent
+
+# The full path to the repository root.
+BASE_DIR = PROJECT_PACKAGE.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -56,7 +60,7 @@ ROOT_URLCONF = 'nutart.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(PROJECT_PACKAGE.joinpath('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +73,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'nutart.wsgi.application'
 
 
@@ -79,7 +85,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR, 'nutart\mysql.cnf'),
+            'read_default_file': str(PROJECT_PACKAGE.joinpath('mysql.cnf')),
         },
     }
 }
@@ -121,7 +127,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_ROOT = ''
+
+STATIC_URL = '/templates/'
+
+STATICFILES_DIRS = [str(PROJECT_PACKAGE.joinpath('templates'))]
+
 
 CACHES = {
     'default': {

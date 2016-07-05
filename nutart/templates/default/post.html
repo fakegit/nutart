@@ -1,0 +1,12 @@
+{% extends "default/base.html" %}
+
+{% block title %}{{ post.title }} | {{ block.super }}{% endblock title %}
+
+{% block main %}
+<h1>{% block post_title %}{{ post.title }}{% endblock %}</h1>
+<p>{% block post_content %}{{ post.content }}{% endblock %}</p>
+<ul class="list-unstyled">
+    <li>Bootstrap v3.3.6</li>
+    <li>jQuery v1.11</li>
+</ul>
+{% endblock main %}

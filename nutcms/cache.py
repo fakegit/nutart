@@ -1,6 +1,6 @@
 from django.core.cache import caches
 
-from .models import Setting, Term, Taxonomy
+from .models import Option, Term, Taxonomy
 
 NUTCMS_CACHE = caches['nutcms']
 
@@ -10,34 +10,29 @@ CACHE_TAXONOMY = 'nutcms_taxonomy'
 
 
 def get_type_cache():
-    data = NUTCMS_CACHE.get(CACHE_TYPE, 'empty')
+    data = NUTCMS_CACHE.get(Term._meta.db_table, 'empty')
     if data == 'empty':
         data = {}
         for nutcms_type in Term.objects.filter(taxonomy__name='type'):
             data[nutcms_type.name] = nutcms_type.slug
-        NUTCMS_CACHE.set(CACHE_TYPE, data)
+        NUTCMS_CACHE.set(Term._meta.db_table, data)
     return data
 
-def get_setting_cache():
-    data = NUTCMS_CACHE.get(CACHE_SETTING, 'empty')
+def get_option_cache():
+    data = NUTCMS_CACHE.get(Option._meta.db_table, 'empty')
     if data == 'empty':
         data = {}
         for setting in Setting.objects.iterator():
             if setting.autoload:
                 data[setting.key] = setting.value
-        NUTCMS_CACHE.set(CACHE_SETTING, data)
+        NUTCMS_CACHE.set(Option._meta.db_table, data)
     return data
 
 def get_taxonomy_cache():
-    data = NUTCMS_CACHE.get(CACHE_TAXONOMY, 'empty')
+    data = NUTCMS_CACHE.get(Taxonomy._meta.db_table, 'empty')
     if data == 'empty':
         data = {}
         for taxonomy in Taxonomy.objects.iterator():
             data[taxonomy.name] = taxonomy.slug
-        NUTCMS_CACHE.set(CACHE_TAXONOMY, data)
+        NUTCMS_CACHE.set(Taxonomy._meta.db_table, data)
     return data
-
-def get_type_list():
-    return [__ for __ in get_type_cache().values()]
-
-

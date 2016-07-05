@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from nutcms.models import Setting, Taxonomy, Term
+from nutcms.models import Option, Taxonomy, Term
 
 class Command(BaseCommand):
     help = 'Init nutcms'
@@ -10,11 +10,12 @@ class Command(BaseCommand):
         self.stdout.write('ok')
 
 def nutcms_init():
-    default_setting = [
-        ('site-name', 'Nutart'),
-        ('site-description', 'This is a nutcms.'),
-        ('site-url', ''),
-        ('home', ''),
+    default_option = [
+        ('site_name', 'Nutart'),
+        ('site_description', 'This is a nutcms.'),
+        ('site_url', '/'),
+        ('home', '/'),
+        ('theme', 'default'),
     ]
 
     default_taxonomy = [
@@ -25,9 +26,11 @@ def nutcms_init():
     default_term = [
         ('posttype', 'post', 'post'),
         ('posttype', 'page', 'page'),
+        ('posttype', 'attachment', 'attachment'),
+        ('category', 'uncategory', 'uncategory')
     ]
 
-    for __ in [Setting(key=key, value=value, autoload=True) for key, value in default_setting]:
+    for __ in [Option(key=key, value=value, autoload=True) for key, value in default_option]:
         __.save()
 
     for __ in [Taxonomy(name=name, slug=slug) for (name, slug) in default_taxonomy]:
