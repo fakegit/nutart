@@ -1,1 +1,88 @@
-{% extends site_options.theme|add:"/movie.html" %}
+{% extends site_options.theme|add:"/base.html" %}
+
+{% block title %}{{ movie.title }} | {{ block.super }}{% endblock title %}
+
+{% block before_style %}
+<link rel="stylesheet" href="http://vjs.zencdn.net/5.9.2/video-js.css" />
+{% endblock before_style %}
+
+{% block main %}
+{% block movie_title %}
+<div class="row">
+    <div class="col-xs-12 entry-title">
+        <a href="{{ movie.get_absolute_url }}"><h1>{% block post_title %}{{ movie.title }}{% endblock %}</h1></a>
+    </div>
+</div>
+{% endblock movie_title %}
+{% block movie_player %}
+<div class="row">
+    <div class="col-xs-12">
+        <h2 class="section-title">Server 1</h2>
+    </div>
+    <div class="col-xs-12">
+        <video class="video-player video-js" poster="http://pics.dmm.co.jp/mono/movie/adult/rbd634/rbd634pl.jpg" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "loop": false}'>
+            <source src="http://cc3001.dmm.co.jp/litevideo/freepv/s/shk/shkd00580/shkd00580_sm_w.mp4" type='video/mp4'>
+            <source src="http://cc3001.dmm.co.jp/litevideo/freepv/s/shk/shkd00580/shkd00580_sm_w.mp4" type='video/webm'>
+            <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video.
+            </p>
+        </video>
+    </div>
+</div>
+{% endblock movie_player %}
+{% block movie_bar %}
+<div class="row entry-bar">
+    <div class="col-sm-6 entry-like">
+        <a href="#" alt="Like It!" title="Like It!">
+            <i class="fa fa-heart fa-2x" aria-hidden="true"></i>
+        </a>
+        <a href="#" alt="Add To My Watch List!" title="Watch Later!">
+            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="col-sm-6 entry-dw">
+        <div class="row">
+            <div class="col-xs-6">
+                <a class="btn center-block" href="{% url 'nutcms:movieplay' posttype_slug='movie' post_slug=view.kwargs.post_slug %}" title="Watch {{ movie.title }} Online!">Watch Online!</a>
+            </div>
+            <div class="col-xs-6">
+                <a class="btn center-block" href="{% url 'nutcms:moviedownload' posttype_slug='movie' post_slug=view.kwargs.post_slug %}" title="Download {{ movie.title }} Now!">Download Now!</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock movie_bar %}
+{% block movie_play %}
+<div class="row">
+    <div class="col-xs-12">
+        <h2 class="section-title">Play</h2>
+    </div>
+    <div class="col-xs-12">
+        {{ playlist_html|safe }}
+    </div>
+</div>
+{% endblock movie_play %}
+
+{% endblock main %}
+
+{% block siderbar %}
+<div class="row">
+    <div class="col-xs-12 entry-data1">
+        <dl class="dl-horizontal">
+            <dt>ID:</dt>
+            <dd>QBD-073</dd>
+            <dt>Star(s):</dt>
+            <dd itemprop="actors">
+                <span itemscope itemtype="http://schema.org/Person">
+                    <a itemprop="name" href="">Tsumiki Aina</a>
+                </span>
+            </dd>
+        </dl>
+    </div>
+</div>
+{% endblock siderbar %}
+
+{% block body_extra %}
+<script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+<script src="http://vjs.zencdn.net/5.9.2/video.js"></script>
+{% endblock body_extra %}

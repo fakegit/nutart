@@ -23,11 +23,11 @@ class Entry(models.Model):
     title = models.TextField('title')
     slug = models.SlugField(max_length=255)
     content = models.TextField(blank=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts', related_query_name='post')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='entries', related_query_name='entry')
     ctime = models.DateTimeField('created time', auto_now_add=True)
     ptime = models.DateTimeField('published time', default=timezone.now)
     mtime = models.DateTimeField('modified time', auto_now=True)
-    terms = models.ManyToManyField('Term', related_name='posts', related_query_name='post')
+    terms = models.ManyToManyField('Term', related_name='entries', related_query_name='entry')
     # post_status = models.CharField(max_length=20, choices=POST_STATUS_CHOICES, default='')
     # comment_status = models.CharField(max_length=20, choices=COMMENT_STATUS_CHOICES)
     comment_count = models.BigIntegerField(default=0)
@@ -124,5 +124,5 @@ class Option(models.Model):
     autoload = models.BooleanField(default=False)
 
 class MovieResource(models.Model):
-    post = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
     movie = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='resources', related_query_name='resource')
