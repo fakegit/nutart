@@ -1,6 +1,8 @@
-{% extends "default/base.html" %}
+{% extends site_options.theme|add:"/base.html" %}
 
 {% block title %}{{ post.title }} | {{ block.super }}{% endblock title %}
+
+{% block custom_css %}{% endblock custom_css %}
 
 {% block main %}
 <h1>{% block post_title %}{{ post.title }}{% endblock %}</h1>

@@ -1,0 +1,149 @@
+{% extends site_options.theme|add:"/base.html" %}
+
+{% block title %}{{ movie.title }} | {{ block.super }}{% endblock title %}
+
+{% block before_style %}
+<link rel="stylesheet" href="http://vjs.zencdn.net/5.9.2/video-js.css" />
+{% endblock before_style %}
+
+{% block main %}
+{% block movie_title %}
+<div class="row">
+    <div class="col-xs-12 entry-title">
+        <a href="{{ movie.get_absolute_url }}"><h1>{% block post_title %}{{ movie.title }}{% endblock %}</h1></a>
+    </div>
+</div>
+{% endblock movie_title %}
+{% block movie_data %}
+<div class="row">
+    <div class="col-sm-7 entry-poster">
+        <img src="http://pics.dmm.co.jp/mono/movie/adult/rbd634/rbd634pl.jpg" alt="{{ movie.title }}" class="img-thumbnail" />
+    </div>
+    <div class="col-sm-5 entry-data">
+        <!--<dl>
+            <dt>ID:&nbsp;</dt>
+            <dd>QBD-073</dd>
+            <dt>Star(s):&nbsp;</dt>
+            <dd itemprop="actors">
+                <span itemscope itemtype="http://schema.org/Person">
+                    <a itemprop="name" href="">Tsumiki Aina</a>
+                </span>
+            </dd>
+            <dt>Series:&nbsp;</dt>
+            <dd>This a very very very very very very long long long long text.</dd>
+        </dl>-->
+        <table class="table table-striped table-condensed table-bordered">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>QBD-073</td>
+                </tr>
+                <tr>
+                    <th>Star(s)</th>
+                    <td itemprop="actors">
+                        <span itemscope itemtype="http://schema.org/Person">
+                            <a itemprop="name" href="">Tsumiki Aina</a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Series</th>
+                    <td>This a very very very very very very long long long long text.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock movie_data %}
+{% block movie_bar %}
+<div class="row entry-bar">
+    <div class="col-sm-6 entry-like">
+        <a href="#" alt="Like It!" title="Like It!">
+            <i class="fa fa-heart fa-2x" aria-hidden="true"></i>
+        </a>
+        <a href="#" alt="Add To My Watch List!" title="Watch Later!">
+            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="col-sm-6 entry-dw">
+        <div class="row">
+            <div class="col-xs-6">
+                <a class="btn center-block" href="{% url 'nutcms:movieplay' posttype_slug='movie' post_slug=view.kwargs.post_slug %}" title="Watch {{ movie.title }} Online!">Watch Online!</a>
+            </div>
+            <div class="col-xs-6">
+                <a class="btn center-block" href="{% url 'nutcms:moviedownload' posttype_slug='movie' post_slug=view.kwargs.post_slug %}" title="Download {{ movie.title }} Now!">Download Now!</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock movie_bar %}
+{% block movie_trailer %}
+<div class="row">
+    <div class="col-xs-12">
+        <h2 class="section-title">Trailer</h2>
+    </div>
+    <div class="col-xs-12">
+        <video class="video-player video-js" poster="http://pics.dmm.co.jp/mono/movie/adult/rbd634/rbd634pl.jpg" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "loop": false}'>
+            <source src="http://cc3001.dmm.co.jp/litevideo/freepv/s/shk/shkd00580/shkd00580_sm_w.mp4" type='video/mp4'>
+            <source src="http://cc3001.dmm.co.jp/litevideo/freepv/s/shk/shkd00580/shkd00580_sm_w.mp4" type='video/webm'>
+            <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video.
+            </p>
+        </video>
+    </div>
+</div>
+{% endblock movie_trailer %}
+{% block movie_description %}
+<div class="row">
+    <div class="col-xs-12">
+        <h2 class="section-title">Description</h2>
+    </div>
+    <div class="col-xs-12">
+        {{ movie.content }}
+    </div>
+</div>
+{% endblock movie_description %}
+{% block movie_gallery %}
+<div class="row">
+    <div class="col-xs-12">
+        <h2 class="section-title">Gallery</h2>
+    </div>
+    <div class="col-xs-12">
+        <dl>
+            <dt>ID:&nbsp;</dt>
+            <dd>{{ view.kwargs.post_slug }}</dd>
+            <dt>Star(s):&nbsp;</dt>
+            <dd itemprop="actors">
+                <span itemscope itemtype="http://schema.org/Person">
+                    <a itemprop="name" href="">Tsumiki Aina</a>
+                </span>
+            </dd>
+            <dt>Series:&nbsp;</dt>
+            <dd>This a very very very very very very long long long long text.</dd>
+        </dl>
+    </div>
+</div>
+{% endblock movie_gallery %}
+{% endblock main %}
+
+{% block siderbar %}
+<div class="row">
+    <div class="col-xs-12 entry-data1">
+        <dl class="dl-horizontal">
+            <dt>ID:</dt>
+            <dd>QBD-073</dd>
+            <dt>Star(s):</dt>
+            <dd itemprop="actors">
+                <span itemscope itemtype="http://schema.org/Person">
+                    <a itemprop="name" href="">Tsumiki Aina</a>
+                </span>
+            </dd>
+        </dl>
+    </div>
+</div>
+{% endblock siderbar %}
+
+{% block body_extra %}
+<script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+<script src="http://vjs.zencdn.net/5.9.2/video.js"></script>
+{% endblock body_extra %}

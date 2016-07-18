@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
 
-class Post(models.Model):
+class Entry(models.Model):
     # POST_STATUS_CHOICES = (
     #     ('draft', 'Draft'),
     #     ('published', 'Published')
@@ -41,11 +41,11 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         posttype = self.terms.get(taxonomy__name='posttype').slug
-        return reverse('nutcms:post', args=[str(posttype), str(self.slug)])
+        return reverse('nutcms:movie', args=[str(posttype), str(self.slug)])
 
 
-class PostMeta(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='metas', related_query_name='meta')
+class EntryMeta(models.Model):
+    post = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='metas', related_query_name='meta')
     key = models.CharField(max_length=255)
     value = models.TextField(blank=True)
 
@@ -97,7 +97,7 @@ class TermMeta(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comments', related_query_name='comment')
+    post = models.ForeignKey('Entry', on_delete=models.CASCADE, related_name='comments', related_query_name='comment')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments', related_query_name='comment', null=True)
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
@@ -122,3 +122,7 @@ class Option(models.Model):
     key = models.CharField(max_length=255, unique=True)
     value = models.TextField(blank=True)
     autoload = models.BooleanField(default=False)
+
+class MovieResource(models.Model):
+    post = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='resources', related_query_name='resource')

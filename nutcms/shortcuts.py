@@ -1,4 +1,4 @@
-from .models import Post, Taxonomy, Term, Option
+from .models import Entry, Taxonomy, Term, Option
 
 
 def get_all_posttypes():
@@ -28,14 +28,14 @@ def get_theme():
 
 def get_post_by_id(id):
     try:
-        p = Post.objects.get(pk=id)
+        p = Entry.objects.get(pk=id)
     except:
         return None
     return p
 
 def get_post_by_slug(slug, term='post', taxonomy='posttype'):
     try:
-        p = Post.objects.get(slug=slug, terms__name=term, terms__taxonomy__name=taxonomy)
+        p = Entry.objects.get(slug=slug, terms__name=term, terms__taxonomy__name=taxonomy)
     except:
         return None
     return p

@@ -15,15 +15,14 @@
     <title>{% block title %}{{ site_options.site_name|title }}{% endblock %}</title>
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static site_options.theme|add:"/static/css/style.css" %}" />
-    <style>
-    body {
-        padding-top: 70px;
-        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    }
-    </style>
+    <link rel="stylesheet" href="{% static site_options.theme|add:'/static/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static site_options.theme|add:'/static/css/font-awesome/css/font-awesome.min.css' %}">
+    {% block before_style %}{% endblock %}
+    <link rel="stylesheet" href="{% static site_options.theme|add:'/static/css/style.css' %}" />
+    {% block custom_css %}
+    {% endblock custom_css %}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,25 +33,152 @@
     {% block head_extra %}{% endblock %}
 </head>
 
-<body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+<body id="{% block body_id %}nutart{% endblock %}" class="{% block body_class %}{% endblock %}">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+    {% block header %}
+    <div id="header">
+        <div class="container-fluid" id="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        header top
+                    </div>
+                    <div class="col-sm-3">
+                        <ul class='nav navbar-nav'>
+                            <li>
+                                <a href="{% url 'nutcms:login' %}">Login</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'nutcms:register' %}">Register</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav">
-                    {% block navbar_collapse %}
+        </div>
+        <div class="container-fluid" id="header-mid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h1><a href="{% url 'nutcms:index' %}">{{ site_options.site_name|title }}</a></h1>
+                    </div>
+                    <div class="col-sm-9 hidden-xs">
+                        ad here
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-default container-fluid" id="header-bottom" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target="#navbar-header-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-search pull-right">
+                        <form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+                            <input type="search" class="search-field" placeholder="Search Movies..." value name="s" title="Search for">
+                            <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-header-collapse">
+                    <ul class="nav navbar-nav">
+                        {% block navbar_header_collapse %}
+                        <li>
+                            <a href="#">About</a>
+                        </li>
+                        <li>
+                            <a href="#">Services</a>
+                        </li>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                        {% endblock navbar_header_collapse %}
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+    </div>
+    {% endblock header %}
+
+    {% block main_before %}{% endblock main_before %}
+
+    <!-- Page Content -->
+    <div class="container" id="main">
+
+        {% block main_top %}{% endblock main_top %}
+
+        <div class="row">
+            <div class="col-md-9 col-sm-12">
+                {% block main %}{% endblock main %}
+            </div>
+            <div class="col-md-3 hidden-sm hidden-xs">
+                {% block siderbar %}<p>Sider Bar</p>{% endblock siderbar %}
+            </div>
+        </div>
+        <!-- /.row -->
+
+        {% block main_bottom %}{% endblock main_bottom %}
+
+    </div>
+    <!-- /.container -->
+
+    {% block main_after %}{% endblock main_after %}
+
+    <!-- Footer -->
+    <div class ="container" id="footer">
+        <div id="footer1" class="row">
+            <div class="col-xs-12 col-sm-9">
+                    <div class="row footer-item feature-list">
+                        <div class="col-sm-4"><i class="fa fa-star"></i>All is Free!
+                        </div>
+                        <div class="col-sm-4"><i class="fa fa-star"></i>Multi Streaming Servers!
+                        </div>
+                        <div class="col-sm-4"><i class="fa fa-star"></i>Biggest Jav Streaming Engine!
+                        </div>
+                        <div class="col-sm-4"><i class="fa fa-star"></i>Update Daily!
+                        </div>
+                        <div class="col-sm-4"><i class="fa fa-star"></i>Featuring Top AV Idols!
+                        </div>
+                        <div class="col-sm-4"><i class="fa fa-star"></i>Mobile Access Anywhere!
+                        </div>
+                    </div>
+                    <div class="footer-item footer-disclaimer">
+                        <p>All clips are collected from outside sources. No videos are hosted on this server. javpin.com is not liable for copyright by any country. The javpin.com Team is gathering and sorting jav movies from other websites every day. It's all here and 100% free porn. Best view with Internet Explorer 7+/FireFox/Google Chrome, Flash Player, 1024x768 dimension.</p>
+                    </div>
+                    <div class="footer-item follow-list">
+
+                    </div>
+                </div>
+            <div class="col-sm-3 hidden-xs">
+                <div class="footer-item">
+                    <!--<img src="https://chart.googleapis.com/chart?chs=240x240&chld=L|1&cht=qr&chl=http://javpin.com&choe=UTF-8" alt="QR code for this page" class="qr-code">-->
+                </div>
+                <div class="footer-item">
+                    <p>View this page on your mobile device. Compatible with Android, iOS and others.</p>
+                </div>
+            </div>
+        </div>
+        <div id="footer2" class="row">
+            <div class="col-lg-12 text-center">
+                <ol class="breadcrumb">
                     <li>
                         <a href="#">About</a>
                     </li>
@@ -62,45 +188,22 @@
                     <li>
                         <a href="#">Contact</a>
                     </li>
-                    {% endblock navbar_collapse %}
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Page Content -->
-    <div class="container">
-
-        <div class="row">
-            <div class="col-md-8 col-sm-12">
-                {% block main %}{% endblock main %}
-            </div>
-            <div class="col-md-4 hidden-sm hidden-xs">
-                <p>Sider Bar</p>
-            </div>
-        </div>
-        <!-- /.row -->
-
-    </div>
-    <!-- /.container -->
-
-    <!-- Footer -->
-    <div class ="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                footer
+                </ol>
+                <small>Copyright since 2016 - Javpin.com - All Rights Reserved.</small>
             </div>
         </div>
     </div>
     <!-- /.container -->
 
     <!-- jQuery Version 1.11.1 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>-->
+    <script src="{% static site_options.theme|add:'/static/js/jquery.min.js' %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-{% block body_extra %}{% endblock body_extra %}
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+    <script src="{% static site_options.theme|add:'/static/js/bootstrap.min.js' %}"></script>
+
+    {% block body_extra %}{% endblock body_extra %}
+
 </body>
 </html>
